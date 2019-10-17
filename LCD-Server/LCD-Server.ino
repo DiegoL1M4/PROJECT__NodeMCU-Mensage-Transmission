@@ -5,11 +5,6 @@
 LiquidCrystal_I2C lcd(0x27,2,1,0,4,5,6,7,3, POSITIVE);
 
 // Nome do seu wifi
-//const char* ssid = "ifce-alunos"; 
-// Senha do seu wifi
-//const char* password = "ifce4lun0s";
-
-// Nome do seu wifi
 const char* ssid = "Nome da rede"; 
 // Senha do seu wifi
 const char* password = "Senha";
