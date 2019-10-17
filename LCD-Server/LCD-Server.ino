@@ -1,3 +1,4 @@
+
 #include <ESP8266WiFi.h>
 #include <Wire.h> // responsável pela comunicação com a interface i2c
 #include <LiquidCrystal_I2C.h> // responsável pela comunicação com o display LCD
@@ -28,15 +29,22 @@ void setup() {
     Serial.begin(115200);
     delay(10);
 
+
+
     // Comunicação com a rede WiFi
     Serial.print("\n\nConnecting to "); // Mensagem apresentada no monitor série
     Serial.println(ssid); // Apresenta o nome da rede no monitor série
 
     WiFi.begin(ssid, password); // Inicia a ligação a rede
-     
+
+    int cont = 0;
     while (WiFi.status() != WL_CONNECTED) {
+        cont += 1;
         delay(500);
         Serial.print("."); // Enquanto a ligação não for efectuada com sucesso é apresentado no monitor série uma sucessão de “.”
+
+        if(cont == 20)
+          break;
     }
     Serial.println("\nWiFi connected"); // Se a ligação é efectuada com sucesso apresenta esta mensagem no monitor série
 
@@ -49,6 +57,12 @@ void setup() {
     Serial.print("http://");
     Serial.print(WiFi.localIP()); //Abrindo o Brower com este IP acedemos á pagina HTML de controlo dos LED´s, sendo que este IP só está disponível na rede à qual o ESP8266 se encontra ligado
     Serial.println("/");
+
+    if(cont == 20)
+        WiFi.mode(WIFI_AP);//Define o WiFi como Acess_Point.
+        WiFi.softAP("NodeMCU", "");//Cria a rede de Acess_Point.
+    
+        sv.begin();//Inicia o servidor TCP na porta declarada no começo.
 }
 
 void loop() {
